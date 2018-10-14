@@ -1,0 +1,180 @@
+6.和属性想关的方法
+
+1)方法：
+Object getAttribute(String name) 获取指定的属性
+Enumeration getAttributeNames() 获取所有的属性的名字组成的Enumeration对象
+removeAttribute(String name) :移除指定的属性
+void SetAttribute 设置属性
+
+2） pageContext ,request ,session,application 对象都有这些方法
+也是域对象
+
+pageContext ： 属性的作用范围仅限于当前jsp页面
+request  ： 属性的作用范围仅限于同一个请求
+session ： 属性的作用范围仅限于一次会话，（浏览器打开直到关闭称之为一次会话，前提会话失效）
+application ： 属性的作用范围仅限于当前web应用，是范围最大的属性作用范围，只要一处设置属性，再其他各处的jsp都可以获取到
+
+
+
+
+
+
+5.JSP
+
+1）为什么需要有jsp：
+是简化sersvlet的编写的一种技术，他将java代码和html语句混合在同一个文件里，
+只对网页中的要动态产生的内容采用java来缩写
+
+2) java Server page : java 服务器网页，在HTML 页面中编写java代码的页面
+2）jsp的helloword：
+<%%> 可编写java代码
+<%
+    Date date = new Date();
+    sout (date)
+%>
+
+3）jsp可以放到web应用程序除了web-inf 及其子目录的中，其他地方都是可以放的。，访问路径与html路径一样
+
+
+5)jsp的隐含变量：没有声明就可以使用的对象 就是隐含对象一共九个
+    public void _jspService(HttpServeltRequest requeset ,HttpServletResponse reponse)
+
+    PageContext pageContext = null;
+    HttpSession session = null;
+    ServletContext application =null;
+    ServletConfig config = null;
+    JspWriter out = null
+    Object page = this
+
+
+    //...
+
+    //使用<% %> 编写的代码在此位置，可以用到request，response pageContext，session application
+    // config，out，page 这8个隐含对象 还有一个是Exception 的隐含对象
+
+51）request ：HttpServletRequest 的一个对象  ***
+52）response ： HttpServletResponse 的一个对象（在jsp 页面中几乎不会用到response 的任何的方法）
+53）pageContex ：页面的上下文，是pageContext 的一个对象。可以从该对象中获取到其他8个隐含对象，也可以从中获取到当前*
+页面的其他信息（学习自定义标签）
+
+54)session : 代表浏览器和服务器的一次会话，是HttpSession的一个对象，后面详细学习***
+
+55) application : 代表当前web应用
+56)config : 当前JSP 对应的SErvlet 的ServletConfig 对象，（开发的时候，几乎不使用）若需要访问当前jsp配置的初始化参数
+需要通过映射的地址才可以
+
+映射JSP：
+
+    <servlet>
+        <servlet-name>hellojsp</servlet-name>
+        <jsp-file>/hello.jsp</jsp-file>
+        <init-param>
+            <param-name>test</param-name>
+            <param-value>testValue</param-value>
+        </init-param>
+    </servlet>
+        <servlet-mapping>
+            <servlet-name>hellojsp</servlet-name>
+            <url-pattern>/hellojsp</url-pattern>
+        </servlet-mapping>
+
+57) out:jspWriter 对象调用out.println 可以直接把字符打印到网页上**
+
+58)page 几乎不用，指向当前的SErvlet 对象的应用，但为OBject类的方法，，这个几乎使用
+
+59)exception:在声明了page指令的isErrorPage = true才可以使用  （偶尔用）
+<%@page isErrorPage="true" %>
+
+
+pageContext ，request session ,application(对属性的作用域的范围从小到大)
+
+out,response,config,page ,
+exception
+
+6）jsp模板元素： jsp页面中的静态HTML内容称
+
+7)jsp表达式，提供了将一个java变量或表达式的计算结果输出到客户端的简化方法，它
+将要输出的白能量或表达式直接封在<%= %> 之中
+   <%
+        Date date = new Date();
+        out.print(date);
+    %>
+
+    <br><br>
+    <%--jsp 表达式--%>
+    <%= date%>
+
+
+8）jsp脚本片段 ： 是指嵌套在<%%> 之中的一条或多条java程序代码
+多个脚本片段，的代码可以相互访问
+
+9) jsp声明：jsp声明将java代码封装在<%! %> 之中，他里面的代码将被插入进servlet的——JSPSErvice方法的外面
+(在 jsp页面中从不这样使用)
+
+
+10） jsp注释    html注释
+   <%----%>         <!-- -->
+   html注释可以在浏览器的工具中看到，而jsp注释不能够显示
+
+
+4.请求的转发和重定向
+1）本质区别： 请求的转发只发出了一次请求，而重定向则发出来两次请求。
+
+具体：
+  11.请求的转发：地址栏是初次发出请求的地址
+    请求的重定向：地址栏不再是初次发出的请求地址，地址栏为最后响应的那个地址
+
+  22 请求转发 ：在最终的Servlet 中，request对象 和中转的那个request是同一个对象
+        请求的重定向：在最终的Servlet 中，request 对象和中转的那个request 不是同一个对象
+
+  33 请求的转发： 只能转发当前web应用的资源
+     请求的重定向：可以重定向任何资源
+  44 请求的转发 ： / 代表当前weib应用的目录
+        请求的重定向： / 代表当前站点的的根目录
+
+---------------------------------------------------------------
+mysql 新建一个test_user 数据表，添加3个字段，id，user，password，并录入几条 记录
+
+定义一个longin。html  里面添加连个请求字段，user，password ，发送到loginServlet
+在创建一个LoginServlet （需要继承HttpServlet 并重写doPost方法）
+
+在其中获取请求的user，password
+利用jdbc 从test_user 中查询有没有和页面输入的user，password 赌赢的记录
+
+select count(id) from test_users where user=? and password = ?
+
+若有响应
+---------------------------------------------------------------
+
+
+
+
+2.HttpServlet
+
+1)是一个Servlet 继承自GenericSErvlet 针对于Http协议定制
+
+2）在service 方法中直接把ServletReuqest 和SErvletResponse 转为http形式的
+并调用了重载的service（HttpSErvletRequest，）
+
+3）在service （）获取请求方式，request.getMethod, doXXX,为具体的请求方式
+
+
+
+4）实际开发中，直接继承HttpServelt 并根据其请求方式重写doGet方法接口
+5） 好处：直接由针对性的doXxx方法，直接使用HttpServletRequest 和HttpSevletReponse 不再需要强转
+
+
+
+1.GenericServlet
+
+1) 是一个Servlet 接口和ServletCOnfig 接口的实现类，但是一个抽象类，其中的service 方法为抽象方法
+2）若果新建的Servlet程序直接继承GengericServlet 会使开发更简洁
+
+3）具体实现：
+31，在GenericServlet 中声明一个ServletConfig 类型的成员变量，在init 方法中对其进行了初始化
+32 ， 利用servletConfig 成员变量的方法事项了ServeltConfig 接口的方法
+33 ， 还定义了一个init 方法，在init（servletConfig） 方法中对其进行调用，子类可以直接覆盖init（）其中实现对Servlet的初始化
+34 ，不建议直接覆盖init（SersvletConfig） 因为如果忘记编写super。init（SersvletConfig）而还是用了ServletConfig的接口的方法
+则会出现空指针的异常
+
+35 新建的init（）{} 并非servlet 的生命周期方法而是init带参的是生命周期想关的方法

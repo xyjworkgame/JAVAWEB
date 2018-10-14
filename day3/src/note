@@ -1,0 +1,103 @@
+1.jsp 指令： jsp指令 是jsp引擎 而设计的他们并不直接产生任何课件输出，而是告诉引擎如何处理jsp页面的其余部分
+
+2. 在目前的jsp2.0 中，定义了page，include，taglib这三种指令
+
+3.page 指令：
+   1） 尽量方法在jsp页面的起始位置。
+
+
+    2）page 指令常用的属性
+    21 。 import 属性，可以导入需要导入的类
+
+    22. session 属性；取值为true或false 指定当前页面的session 隐含变量是否可用
+
+    23 errorPage 和isErrorPage ：
+        > 若指定当前页面出现错误的实际响应页面什么， 其中 / 表示是当前web应用的根目录
+        <%@page session="false" errorPage="/error.jsp" %>
+
+        >在响应error。jsp 时， jsp引擎使用的请求转发的方式
+
+        >isErrorpage 指定当前页面是否为错误处理页面，可以说明当前页面是否可以使用exception 隐藏变量，需要注意的是：若指定isErrorPage=true
+        并使用exception的方法，一般不建议能够直接访问该页面
+
+
+        > 如何使客户不能直接访问某一个页面呢？
+            对于Tomcat服务器而言，web——INF 下的文件是不能通过浏览器直接访问的。
+            但通过请求的转发是可以 的
+    在web。xml页面配置错误页面
+    <error-page>
+        <!--指定出错的代码-->
+        <error-code>404</error-code>
+        <!--指定响应的位置-->
+        <location>/hello.jsp</location>
+    </error-page>
+
+    <error-page>
+        <!--指定异常的类型-->
+        <exception-type>java.lang.ArithmeticException</exception-type>
+        <location>/WEB-INF/error.jsp</location>
+    </error-page>
+4.congtentType ： 指定当前JSP页面的响应类型，实际调用的是response.setContentType("text/html;charset=UTF-8");
+通常情况下，对于jsp页面其取值为text/html charset=UTF-8  charset 指定返回的页面的字符编码是什么
+
+
+5.）pageEncoding ： 指定当前jsp页面的字符编码，通常情况下，该值和contentType 中的charse 一致
+
+6）.isELIGnored： 指定当前jsp页面是否可以使用EL表达式，通常是true
+
+
+4. include 指令
+1） include 指令用于通知jsp 引擎在翻译当前jsp页面时将其他文件中的内容合并到当前页面，而转换成Servlet 源文件中，
+这种源文件级别引入的方式是静态引入，当前jsp页面与静态引入的页面紧密结合为一个servlet
+
+
+2）file属性的设置必须使用相对路径，如果以 / 开头，，表示相对于当前web 应用程序的根目录，，否则表示相对于当前文件
+
+
+5.jsp:include 标签
+1）<jsp:include page="b.jsp"></jsp:include>
+
+2）这个是动态引入：并不是想include指令生成一个Servlet 源文件，，是生成两个，，通过一个方法的方式来包含的
+
+6.include 指令和jsp：include 标签：
+
+jsp：include ： 标签是在当前jsp页面的执行周期插入被引入资源的输出内容。
+被态引入的资源必须是一个能独立被web容器调用和执行的资源
+include 指令只能引入遵循jsp格式的文件，被引入文件与当前jsp文件共同被翻译一个SErvlet 的源文件
+
+
+
+7jsp:forward :
+
+<jsp:forward page="/include/b.jsp"></jsp:forward>
+相当于
+request.getRequestDispatcher("/include/b.jsp").forward(request,response)
+
+
+2）但使用jsp：forward 可以使用jsp：param 子标签想b。jsp传入一些参数，同样jsp：include 也可以使用jsp：param子标签
+jsp:forward page="/include/b.jsp">
+
+    <jsp:param name="username" value="ac"></jsp:param>
+</jsp:forward>
+
+在b。jsp 页面可以统共request。getParaeter（“username”） 获取传入的参数
+
+
+
+9、关于中文乱码
+1)在jsp页面上输入中文，请求页面后不出现乱码：保证：
+contentType="text/html;charset=UTF-8跟
+pageEncoding =utf-8 charset he pageEncoding 的编码一致
+
+2）还需保证浏览器的字符编码也是UTF-8就行
+
+3）获取中文参数值；
+
+只要在获取请求信息之前，设定request的格式为utf-8
+
+对于get请求，，，可以通过修改Tomact 的server.xml 文件的格式
+
+
+
+
+

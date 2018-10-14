@@ -1,0 +1,199 @@
+在web.xml 中配置和映射这个Servlet
+
+
+    <!--配置和映射Servlet-->
+    <servlet>
+        <!--Servlet 注册的名字-->
+        <servlet-name>helloservlet</servlet-name>
+        <!--Servlet 的全类名-->
+        <servlet-class>com.study.servlet.HelloServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <!--需要和某一个Servlet 节点的servlet-name 子节点的文本节点一致-->
+        <servlet-name>helloservlet</servlet-name>
+        <!--映射具体的访问路径：/ 代表当前的web应用的目录-->
+        <url-pattern>/hello</url-pattern>
+
+</servlet-mapping>
+
+
+
+3.Servlet 容器：运行下面的这些的软件环境
+1）可以来创建爱你Servlet ，并调用servlet 的相关生命周期方法
+2）JSP，FIlter， LIsterner ，Tag  都是依赖这个
+
+
+4.Servlet 生命周期的方法：以下方法都是用Servlet 容器调用
+1）构造器：第一次请求Servlet时，创建Servlet的实例，调用构造器
+这说明Servlet 的单实例的！
+2）init : 只被调用一次，在创建好实例后立即被调用，用于初始化当前Servlet
+3）service ：每次请求都会调用service方法，实际用于响应请求的
+4）destroy ： 只被调用一次，在当前Servlet所在的web 应用被卸载调用，用于释放被占用的资源
+
+
+5.load-on-startup 参数：
+1）配置在servlet 节点中：
+    <servlet>
+        <!--Servlet 注册的名字-->
+        <servlet-name>secondservlet</servlet-name>
+        <!--Servlet 的全类名-->
+        <servlet-class>com.study.servlet.SecondServlet</servlet-class>
+        <!--可以指定Servlt 被创建的时机-->
+        <load-on-startup>2</load-on-startup>
+    </servlet>
+
+2） load-on-startup ： 可以指定Servlet 被创建的时机，若为负数，则在第一次请求时被创建。
+若为0或正数，，则在当前web应用被Servlet 容器加载时创建实例，且数组越小越早被创建。
+
+6.关于Servlet-mapping
+1） 同一个Servlet 可以被映射到多个URL上，即多个<servlet-mapping > de <servlet-name>子元素的设置值可以是同一个Servelt注册名
+
+2）在Servlt映射到URl中也可以使用 * 通配符，但是只能用两种固定的格式，一种格式是“*.扩展名” ， 另一种格式是以正斜杠/ 开头以/* 结尾
+  <servlet-mapping>
+        <!--需要和某一个Servlet 节点的servlet-name 子节点的文本节点一致-->
+        <servlet-name>helloservlet</servlet-name>
+        <!--映射具体的访问路径：/ 代表当前的web应用的目录-->
+        <url-pattern>/hello2</url-pattern>
+    </servlet-mapping>
+
+    OR
+      <servlet-mapping>
+            <!--需要和某一个Servlet 节点的servlet-name 子节点的文本节点一致-->
+            <servlet-name>helloservlet</servlet-name>
+            <!--映射具体的访问路径：/ 代表当前的web应用的目录-->
+            <url-pattern>*.html</url-pattern>
+        </servlet-mapping>
+
+
+7.ServletConfig : 封装了Servlet 的配置信息，并且可以获取ServletContext对象
+
+1）配置Servlet 的初始化参数 且节点必须在load-on-startup 节点的前面
+ <init-param>
+            <!--初始化参数名-->
+            <param-name>user</param-name>
+            <!--参数值-->
+            <param-value>root</param-value>
+        </init-param>
+
+        <init-param>
+            <param-name>password</param-name>
+            <param-value>1230</param-value>
+        </init-param>
+2）获取初始化参数：
+    》getInitParameter (String name) : 获取指定参数名的初始化参数
+    > getInitParameterName()  获取参数名组成的Enumeration 对象
+
+        String user = servletConfig.getInitParameter("user");
+        System.out.println(user);
+
+        Enumeration<String> names = servletConfig.getInitParameterNames();
+        while (names.hasMoreElements()){
+            String name = names.nextElement();
+            String value = servletConfig.getInitParameter(name);
+
+            System.out.println("^^"+name+" :" + value);
+        }
+
+3) 获取Servlet 的配置名称（了解）
+
+8.ServketContext
+1）可以由ServletCOnfig 获取
+2）该对象代表当前web应用：可以认为ServletCOntext 是当前Web应用的一个大管家，可以从中获取到当前web应用的各个方面的信息
+
+设置初始化参数：可以为所有的sevlet所获取，而Servlet 的初始化参数只用那个Servlet 可以获取
+11 获取当前web应用的初始化参数
+ <context-param>
+        <param-name>driver</param-name>
+        <param-value>com.mysql.jdbc.Driver</param-value>
+    </context-param>
+
+
+方法：
+getInitParmeter
+getInitParmeterNames
+
+代码：
+ServletContext servletContext = servletConfig.getServletContext();
+
+        String driver = servletContext.getInitParameter("driver");
+        System.out.println("dirver:" +driver);
+
+        Enumeration<String> names2 = servletContext.getInitParameterNames();
+        while (names2.hasMoreElements()){
+            String name = names2.nextElement();
+            System.out.println("-->" + name);
+        }
+22 获取当前web应用的某一个文件在服务器上的的绝对路径：而不是部署前的路径
+
+getRealPath()；
+
+33.获取当前web应用的名称
+
+getContest
+
+44 获取当前web应用的某一个文件对应的输入流
+getResourceAsStream(String path) : path 的/ 为当前的web应用的根目录
+
+   InputStream is2 = servletContext.getResourceAsStream("\\WEB-INF\\classes\\jdbc.properties");
+
+
+9 get 和 post 请求
+
+1） 使用get请求
+http://localhost:8080/loginServlet?user=xie&passwrod=123456
+传送的数据量为1k一下
+2）使用post请求
+11 要用web服务器端程序提交form 表单上中数据，，设置为post
+传输文件使用post
+
+
+10 如何在Servlet中获取请求信息
+
+1）Servlet 的Service 方法用于应答请求，因为每次请求都会调用serveice方法
+
+ServletRequest servletRequest, ServletResponse servletResponse
+
+Servlet Request : 封装了请求信息，可以从中获取到任何请求信息
+ServletResponse ； 封装了响应信息，如果给用户什么响应，具体可以使用该接口的方法
+
+
+这两个接口的实现类都是服务器给予实现的，并在服务器调用service 方法时传入
+
+2）servletRequest
+
+11 获取请求参数
+    >String getParmeter  根据请求参数的名字，返回参数值
+    >String[] getParameterValues() : 根据请求参数的名字，返回参数的对应的字符串数组。
+
+    >Enumeration getparameterNames : 返回参数名对应的Enumeration 对象，类似于ServletConfig （servletContext） 的GetInitParameterNames
+
+    >map getParmeterMap : 返回请求参数的键值对；key参数名，value 参数值，String 数组类型
+
+22 获取请求的url
+   HttpServletRequest httpServletRequest = (HttpServletRequest) servletRequest;
+
+        String requestUrl = httpServletRequest.getRequestURI();
+        System.out.println(requestUrl);
+33获取请求的方式；
+   String method = httpServletRequest.getMethod();
+        System.out.println(method);
+
+
+3) httpServletRequest 是 servletRequest 的子接口，针对于http请求所定义的，里面包含了大量获取http的方法
+
+4）servletResponse 封装了响应信息，如果想给用户什么响应，具体可以使用该接口的方法实现
+
+41 getWriter 方法：：：放回PrintWirter 对象，调用该对象的print方法，将把print中的参数直接打印到客户的浏览器上
+
+
+42 设置响应的内容类型：
+        servletResponse.setContentType("application/msword");
+
+43 void sendRediret(String location): 请求的重定向，（在HttpServletResponse中定义）
+
+
+在web。xml文件中设置俩个web应用的初始化参数，user，password
+定义一个login，html 里面定义两个请求字段 user,password
+
+在创建爱你一个LOginServlet ，在其中获取请求的user，password比对其和web，xml 文件中定义的请求参数是否一致
+若一致：响应hello：XXX ，若不一致，响应Sorry：xxx，，xxx为user
