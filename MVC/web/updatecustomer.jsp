@@ -26,27 +26,47 @@
 <%
 
     }
+    String id = null;
+    String oldName = null;
+    String name = null;
+    String address = null;
+    String phone = null;
+
     Customer customer = (Customer) request.getAttribute("customer");
+
+    if (customer != null){
+        id = customer.getId() + "";
+        oldName = customer.getName();
+        name = customer.getName();
+        address = customer.getAddress();
+        phone = customer.getPhone();
+    }else {
+        id = request.getParameter("id");
+        oldName = request.getParameter("oldName");
+        name = request.getParameter("oldName");
+        address = request.getParameter("address");
+        phone = request.getParameter("phone");
+    }
 %>
 <form action="update.do" method="post">
 
-    <input type="hidden" name="id" value="<% customer.getId(); %>"/>
-    <input type="hidden" name="oldname" value="<% customer.getName(); %>"/>
+    <input type="hidden" name="id" value="<%= id %>"/>
+    <input type="hidden" name="oldname" value="<%=oldName %>"/>
         <table>
         <tr>
             <td>CustomerName:</td>
             <td><input type="text" name="name"
-                       value="<%=  customer.getName()%>"/></td>
+                       value="<%= name%>"/></td>
         </tr>
         <tr>
             <td>Address:</td>
             <td><input type="text" name="address"
-                       value="<%= customer.getAddress()%>"/></td>
+                       value="<%= address%>"/></td>
         </tr>
         <tr>
             <td>Phone:</td>
             <td><input type="text" name="phone"
-                       value="<%= customer.getPhone()  %>"/></td>
+                       value="<%= phone  %>"/></td>
         </tr>
         <tr>
             <td colspan="2"><input type="submit" value="Submit"/></td>

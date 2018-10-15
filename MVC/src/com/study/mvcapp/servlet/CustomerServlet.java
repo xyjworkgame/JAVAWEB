@@ -2,6 +2,7 @@ package com.study.mvcapp.servlet;
 
 import com.study.mvcapp.Dao.CriteriaCustomer;
 import com.study.mvcapp.Dao.CustomersDAO;
+import com.study.mvcapp.Dao.factory.CustomerDaofactory;
 import com.study.mvcapp.Dao.impl.CustomerDAOjdbcImpl;
 import com.study.mvcapp.domain.Customer;
 
@@ -24,8 +25,9 @@ import java.util.List;
  */
 @WebServlet(name = "customerServlet", urlPatterns = "*.do")
 public class CustomerServlet extends HttpServlet {
-
-    private CustomersDAO customersDAO = new CustomerDAOjdbcImpl();
+    //
+    //后面这个类可以换，， 这就是面向对象编程
+    private CustomersDAO customersDAO = CustomerDaofactory.getInstance().getCustomerDao();
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
@@ -61,10 +63,10 @@ public class CustomerServlet extends HttpServlet {
     }
     private void edit(HttpServletRequest req, HttpServletResponse resp)throws ServletException, IOException  {
 
-        String forwardPath = null;
+        String forwardPath = "/error.jsp";
         //1.获取请求参数id
         String idStr = req.getParameter("id");
-        int id = -1;
+
 
         //2,嗲用CustomerDao 的customerDao。getid 的和对象
         try {
@@ -95,7 +97,7 @@ public class CustomerServlet extends HttpServlet {
         String oldName = req.getParameter("oldName");
         String address = req.getParameter("address");
         //2,检验name是否已经被占用
-        if (!oldName.equals(name)){
+        if (!oldName.equalsIgnoreCase(name)){
             long count = customersDAO.getCountWithName(name);
             //2.2先比较name和oldname 是否相同，若相同说明name可用
             if (count > 0){
@@ -112,6 +114,7 @@ public class CustomerServlet extends HttpServlet {
         }
         //3.调用CustomerDao的getCountwithName 获取name 在数据库汇总是否存在
         Customer customer = new Customer(name,address,phone);
+
 
         customer.setId(Integer.parseInt(id));
 
@@ -176,7 +179,7 @@ public class CustomerServlet extends HttpServlet {
         if (count > 0){
             request.setAttribute("message","用户名" +name + "已经占用，请重新选择！");
 
-            request.getRequestDispatcher("/newcustomers.jsp").forward(request,response);
+            request.getRequestDispatcher("/newcustomer.jsp").forward(request,response);
             return;
         }
         //2.2) newcustiomer。jsp 的表单可以回显
