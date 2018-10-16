@@ -13,9 +13,18 @@ import java.io.IOException;
  * @Program Name: <br>
  * @Create : 2018-10-16-19:12
  */
-@WebServlet(name = "Servlet" , urlPatterns = "/ProcessStep1Servlet")
+@WebServlet(name = "ProcessStep1Servlet" , urlPatterns = "/processStep1")
 public class ProcessStep1Servlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+
+        //1.或许选中的图书信息
+        String [] books = request.getParameterValues("book");
+        //2.把图书信息放入到Httpsession 中
+        request.getSession().setAttribute("books",books);
+        //2.重定向页面到shoppingcart/step-1.jsp
+
+        System.out.println(request.getContextPath() + "/shoppingcart/step-2.jsp");
+        response.sendRedirect(request.getContextPath() + "/shoppingcart/step-2.jsp");//绝对路径
 
     }
 

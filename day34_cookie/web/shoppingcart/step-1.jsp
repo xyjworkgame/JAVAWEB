@@ -11,14 +11,16 @@
     <title>Title</title>
 </head>
 <body>
-
+<%=request.getContextPath()+"  543534"%>
     <h4>Step1:选择要购买的图书：</h4>
 
-    <form action="processStep1" method="post">
-        <table>
+    <form action="<%= request.getContextPath()%>/processStep1" method="post">
+
+        <table border="1" cellpadding="10" cellspacing="0">
             <tr>
                 <td>书名</td>
                 <td>购买</td>
+
 
             </tr>
             <tr>
