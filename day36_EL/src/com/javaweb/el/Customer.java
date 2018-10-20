@@ -41,7 +41,7 @@ public class Customer {
         this.age = age;
     }
 
-    public Customer() {
+    public Customer(int i, String aa, int i1) {
 
         System.out.println("Customer's constructor");
     }

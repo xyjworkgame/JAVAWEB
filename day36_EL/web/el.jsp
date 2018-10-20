@@ -1,4 +1,5 @@
-<%@ page import="com.javaweb.el.Customer" %><%--
+<%@ page import="com.javaweb.el.Customer" %>
+<%@ page import="java.util.Date" %><%--
   Created by IntelliJ IDEA.
   User: xyjwork
   Date: 2018/10/19
@@ -12,31 +13,43 @@
 </head>
 <body>
 
-
 <form action="el.jsp" method="post">
+
     username: <input type="text" name="username"
                      value="<%= request.getParameter("username") == null ? "" : request.getParameter("username")%>"/>
 
+    <!--
+        EL 表达式的有点: 简洁!
+    -->
     username: <input type="text" name="username"
-                     value="${param.username}"/>
+                     value="${param.username }"/>
     <input type="submit" value="Submit"/>
 
 </form>
 
-username: <%= request.getParameter("username")%>
-<br>
-<br>
-<jsp:useBean id="customer" class="com.javaweb.el.Customer" scope="session"/>
-<jsp:setProperty name="customer" property="age" value="12"/>
+username: <%= request.getParameter("username") %>
+
+<br><br>
+
+<jsp:useBean id="customer" class="com.javaweb.el.Customer" scope="session"></jsp:useBean>
+<jsp:setProperty property="age" value="12" name="customer"/>
 
 age:
 <%
-    Customer customer1 = (Customer) session.getAttribute("Customer");
-    out.print(customer1.getAge());
+    Customer customer2 = (Customer)session.getAttribute("customer");
+    out.print(customer2.getAge());
 %>
 <br>
-age:<jsp:getProperty name="customer" property="age"/>
+age: <jsp:getProperty property="age" name="customer"/>
 
-<a href="el2.jsp">to el.jsp</a>
+<br>
+<br>
+
+<%
+    application.setAttribute("time", new Date());
+%>
+
+<a href="el2.jsp?score=89&name=A&name=B&name=C">To El2 Page</a>
+
 </body>
 </html>
