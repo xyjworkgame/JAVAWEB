@@ -19,6 +19,10 @@
 <body>
     
     <!--在页面上对request 中的customer 属性进行遍历，打印id，name，age-->
+    <c:forEach items="${requestScope.customers }" var="customer">
+        --${customer.id},${customer.name},${customer.age}<br>
+
+    </c:forEach>
     <%--<%--%>
         <%--List<Customer1> customers1 = (List<Customer1>) request.getAttribute("customers");--%>
 
