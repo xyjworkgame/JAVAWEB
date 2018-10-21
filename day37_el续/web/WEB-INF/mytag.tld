@@ -12,10 +12,78 @@
     <uri>http://mycompany.com/mytag/core</uri>
 
     <!-- Invoke 'Generate' action to add tags or functions -->
-    
+
+
+    <tag>
+        <name>choose</name>
+        <tag-class>com.javaweb.el.ChooseTag</tag-class>
+        <body-content>scriptless</body-content>
+    </tag>
+    <tag>
+        <name>when</name>
+        <tag-class>com.javaweb.el.WhenTag</tag-class>
+        <body-content>scriptless</body-content>
+        <attribute>
+            <name>test</name>
+            <required>true</required>
+            <rtexprvalue>true</rtexprvalue>
+        </attribute>
+    </tag>
+
+    <tag>
+        <name>otherwise</name>
+        <tag-class>com.javaweb.el.OtherwiseTag</tag-class>
+        <body-content>scriptless</body-content>
+    </tag>
+    <tag>
+        <name>parentTag</name>
+        <tag-class>com.javaweb.el.ParentTag</tag-class>
+        <body-content>scriptless</body-content>
+    </tag>
+    <tag>
+        <name>sonTag</name>
+        <tag-class>com.javaweb.el.SonTag</tag-class>
+        <body-content>empty</body-content>
+    </tag>
+    <tag>
+        <name>forEachTag</name>
+        <tag-class>com.javaweb.el.ForEachTag</tag-class>
+        <body-content>scriptless</body-content>
+
+        <attribute>
+            <name>items</name>
+            <required>true</required>
+            <rtexprvalue>true</rtexprvalue>
+        </attribute>
+        <attribute>
+            <name>var</name>
+            <required>true</required>
+            <rtexprvalue>true</rtexprvalue>
+        </attribute>
+    </tag>
+
+    <tag>
+        <name>printUpper</name>
+        <tag-class>com.javaweb.el.PrintUpperTag</tag-class>
+        <body-content>scriptless</body-content>
+
+        <attribute>
+            <name>time</name>
+            <required>true</required>
+            <rtexprvalue>true</rtexprvalue>
+        </attribute>
+    </tag>
+
     <tag>
         <name>testJspFragment</name>
         <tag-class>com.javaweb.el.TestJspFragment</tag-class>
         <body-content>scriptless</body-content>
     </tag>
+
+    <!--??EL??????-->
+    <function>
+        <name>concat</name>
+        <function-class>com.javaweb.el.MyELFunction</function-class>
+        <function-signature>java.lang.String concat(java.lang.String,java.lang.String)</function-signature>
+    </function>
 </taglib>
