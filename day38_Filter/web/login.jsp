@@ -11,13 +11,18 @@
     <title>Title</title>
 </head>
 <body>
-    <font color="red">${message}</font>
-    <form action="hello.jsp" method="post">
-        useranme: <input type="text" name="username"/>
-        password: <input type="password" name="password"/>
 
-        <input type="submit" name="Submit">
+<span style="color: red; ">${message }</span>
+<br><br>
 
-    </form>
+<form action="hello.jsp" method="post">
+
+    username: <input type="text" name="username" value="${param.username }"/>
+    password: <input type="password" name="password"/>
+
+    <input type="submit" value="Submit"/>
+
+</form>
+
 </body>
 </html>

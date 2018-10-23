@@ -14,7 +14,7 @@ import java.io.IOException;
 public class UserNameFilter implements Filter {
     public void destroy() {
     }
-
+    private FilterConfig filterConfig;
     public void doFilter(ServletRequest req, ServletResponse resp, FilterChain chain) throws ServletException, IOException {
 
         String initUser = filterConfig.getInitParameter("username");
@@ -28,9 +28,9 @@ public class UserNameFilter implements Filter {
 
         chain.doFilter(req, resp);
     }
-    private FilterConfig filterConfig;
+
     public void init(FilterConfig config) throws ServletException {
-        this.filterConfig = filterConfig;
+        this.filterConfig = config;
     }
 
 }
