@@ -5,6 +5,32 @@
          version="4.0">
     
     <!--注册Filter-->
+    <context-param>
+        <param-name>password</param-name>
+        <param-value>1234</param-value>
+    </context-param>
+    <filter>
+        <display-name>UserNameFilter</display-name>
+        <filter-name>UserNameFilter</filter-name>
+        <filter-class>com.javaweb.Filter.UserNameFilter</filter-class>
+        <init-param>
+            <param-name>username</param-name>
+            <param-value>Tom</param-value>
+        </init-param>
+    </filter>
+    <filter-mapping>
+        <filter-name>UserNameFilter</filter-name>
+        <url-pattern>/hello.jsp</url-pattern>
+    </filter-mapping>
+    <filter>
+        <filter-name>PasswordFilter</filter-name>
+        <filter-class>com.javaweb.Filter.PasswordFilter</filter-class>
+      
+    </filter>
+    <filter-mapping>
+        <filter-name>PasswordFilter</filter-name>
+        <url-pattern>/hello.jsp</url-pattern>
+    </filter-mapping>
     <filter>
         <filter-name>secondfilter</filter-name>
         <filter-class>com.javaweb.Filter.SecondFilter</filter-class>
