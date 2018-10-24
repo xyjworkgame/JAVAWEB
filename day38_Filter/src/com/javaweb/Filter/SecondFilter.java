@@ -18,9 +18,12 @@ public class SecondFilter implements Filter {
     }
 
     public void doFilter(ServletRequest req, ServletResponse resp, FilterChain chain) throws ServletException, IOException {
-        System.out.println("seconddoFilter");
+        System.out.println("3.Before secondFileter's doFilter...");
 
+        //放行：
         chain.doFilter(req,resp);
+
+        System.out.println("4.After secondFilter's chain.doFilter");
     }
 
     public void init(FilterConfig config) throws ServletException {

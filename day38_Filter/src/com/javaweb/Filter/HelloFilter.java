@@ -17,11 +17,14 @@ public class HelloFilter implements Filter {
     }
 
     public void doFilter(ServletRequest req, ServletResponse resp, FilterChain chain) throws ServletException, IOException {
-        System.out.println("doFilter");
+        System.out.println("1.Before HelloFileter's doFilter...");
 
         //放行：
         chain.doFilter(req,resp);
+
+        System.out.println("2.After HelloFilter's chain.doFilter");
     }
+    //执行顺序是13542
 
     public void init(FilterConfig config) throws ServletException {
 

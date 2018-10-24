@@ -40,6 +40,11 @@
     <filter-mapping>
         <filter-name>secondfilter</filter-name>
         <url-pattern>/test.jsp</url-pattern>
+        <dispatcher>REQUEST</dispatcher>
+        <dispatcher>FORWARD</dispatcher>
+        <dispatcher>INCLUDE</dispatcher>
+        <!--REQUEST  当用户直接访问页面时，web容器将会调用过滤器，如果目标资源是通过include或forward 访问，则不会被调用-->
+        <!--FORWard  如果目标资源是通过RequestDispatcher 的forward 方法访问时，那么该过滤器将被调用，除此之外，不会被调用-->
     </filter-mapping>
     <filter>
         <filter-name>hellofilter</filter-name>
