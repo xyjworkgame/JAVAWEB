@@ -9,6 +9,30 @@
         <param-name>password</param-name>
         <param-value>1234</param-value>
     </context-param>
+    <context-param>
+        <param-name>encoding</param-name>
+        <param-value>UTF-8</param-value>
+    </context-param>
+
+    <!-- 用户信息放入到 session 中的键的名字 -->
+    <context-param>
+        <param-name>userSessionKey</param-name>
+        <param-value>USERSESSIONKEY</param-value>
+    </context-param>
+
+    <!-- 若未登录, 需重定向的页面 -->
+    <context-param>
+        <param-name>rediretPage</param-name>
+        <param-value>/login/login.jsp</param-value>
+    </context-param>
+
+    <!-- 不需要拦截(或检查)的 URL 列表 -->
+    <context-param>
+        <param-name>uncheckedUrls</param-name>
+        <param-value>/login/a.jsp,/login/list.jsp,/login/login.jsp,/login/doLogin.jsp</param-value>
+    </context-param>
+
+
     <filter>
         <display-name>UserNameFilter</display-name>
         <filter-name>UserNameFilter</filter-name>
@@ -59,5 +83,21 @@
     <filter-mapping>
         <filter-name>hellofilter</filter-name>
         <url-pattern>/test.jsp</url-pattern>
+    </filter-mapping>
+    <filter>
+        <filter-name>EncodingFilter</filter-name>
+        <filter-class>com.javaweb.encoding.EncodingFilter</filter-class>
+    </filter>
+    <filter-mapping>
+        <filter-name>EncodingFilter</filter-name>
+        <url-pattern>/encoding/*</url-pattern>
+    </filter-mapping>
+    <filter>
+        <filter-name>loginFilter</filter-name>
+        <filter-class>com.javaweb.login.LoginFilter</filter-class>
+    </filter>
+    <filter-mapping>
+        <filter-name>loginFilter</filter-name>
+        <url-pattern>/login/*</url-pattern>
     </filter-mapping>
 </web-app>
