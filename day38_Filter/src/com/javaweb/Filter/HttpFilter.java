@@ -58,7 +58,7 @@ public abstract class HttpFilter implements Filter {
      * @param response
      * @param filterChain
      */
-    public abstract void doFilter(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain);
+    public abstract void doFilter(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws IOException, ServletException;
 
     /**
      * 不建议子类直接覆盖，如直接覆盖，有可能会导致filtereConfig成员初始化失败
