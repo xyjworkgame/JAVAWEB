@@ -22,7 +22,7 @@
                     + i + "'/><button id='delete"
                     + i + "'>删除</button></td></tr>");
 
-                fds
+
                 i++;
             })
             //2.利用jQUrey 生成，注意数字的写法,并把他们都#br前面
