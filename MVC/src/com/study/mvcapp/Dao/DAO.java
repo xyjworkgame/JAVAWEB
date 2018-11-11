@@ -56,7 +56,7 @@ public class DAO<T> {
         Connection connection = null;
         try{
             connection = jdbcUtils.getConnection();
-            return queryRunner.query(connection,sql,new ScalarHandler<>(),args);
+            return (E) queryRunner.query(connection,sql,new ScalarHandler(),args);
         }catch (Exception e){
             e.printStackTrace();
         }finally {
