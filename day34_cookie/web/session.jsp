@@ -14,6 +14,7 @@
     <%
         out.print(session.getId());
 
+
         Cookie cookie = new Cookie("session",session.getId());
         cookie.setMaxAge(20);
         response.addCookie(cookie);

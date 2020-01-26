@@ -14,7 +14,7 @@
 <!-- 注册 Filter -->
 <filter>
 	<filter-name>helloFilter</filter-name>
-	<filter-class>com.atguigu.javaweb.HelloFilter</filter-class>
+	<filter-class>com.demo.javaweb.HelloFilter</filter-class>
 </filter>
 
 <!-- 映射 Filter -->
@@ -36,7 +36,7 @@
 		
 		<filter>
 			<filter-name>helloFilter</filter-name>
-			<filter-class>com.atguigu.javaweb.HelloFilter</filter-class>
+			<filter-class>com.javaweb.HelloFilter</filter-class>
 			<init-param>
 				<param-name>name</param-name>
 				<param-value>root</param-value>

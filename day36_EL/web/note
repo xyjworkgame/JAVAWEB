@@ -27,7 +27,7 @@ description, display-name, tlib-version, short-name, uri 做出修改
   	<name>hello</name>
   	
   	<!-- 标签所在的全类名 -->
-  	<tag-class>com.atguigu.javaweb.tag.HelloSimpleTag</tag-class>
+  	<tag-class>com.demo.javaweb.tag.HelloSimpleTag</tag-class>
   	<!-- 标签体的类型 -->
   	<body-content>empty</body-content>
   </tag>
